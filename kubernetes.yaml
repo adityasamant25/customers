@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: customers
+  name: customers
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customers
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: customers
+    spec:
+      containers:
+        - image: adityasamantlearnings/customers
+          name: customers
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: customers
+  name: customers
+spec:
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: customers
+
