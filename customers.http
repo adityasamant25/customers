@@ -1,0 +1,28 @@
+### Find All Customers
+GET http://localhost:8081/api/customers
+
+### Get Customers by ID
+GET http://localhost:8081/api/customers/1
+
+### Create a new Customer
+POST http://localhost:8081/api/customers
+Content-Type: application/json
+
+{
+  "id": 4,
+  "firstName": "Sarah",
+  "lastName": "Jones"
+}
+
+### Update Customer
+PUT http://localhost:8081/api/customers/2
+Content-Type: application/json
+
+{
+  "id": 2,
+  "firstName": "Tom",
+  "lastName": "Potter"
+}
+
+### Delete Customer
+DELETE http://localhost:8081/api/customers/2
