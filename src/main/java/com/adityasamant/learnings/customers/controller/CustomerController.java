@@ -15,7 +15,9 @@ import java.util.List;
 @CrossOrigin
 public class CustomerController {
 
+
     Logger log = LoggerFactory.getLogger(CustomerController.class);
+
     private final CustomerCollectionRepository repository;
 
     public CustomerController(CustomerCollectionRepository repository) {
