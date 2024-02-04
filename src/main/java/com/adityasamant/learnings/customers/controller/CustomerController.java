@@ -43,7 +43,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@RequestBody Customer customer, @PathVariable Integer id) {
-        if (!repository.existsById(id)) {
+        if (repository.checkInvalidCustomer(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found.");
         }
         repository.save(customer);
@@ -52,7 +52,7 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
-        if (!repository.existsById(id)) {
+        if (repository.checkInvalidCustomer(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found.");
         }
         repository.delete(id);

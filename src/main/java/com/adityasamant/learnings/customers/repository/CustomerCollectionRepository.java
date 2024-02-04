@@ -29,8 +29,8 @@ public class CustomerCollectionRepository {
         customerList.add(customer);
     }
 
-    public boolean existsById(Integer id) {
-        return customerList.stream().filter(c -> c.id().equals(id)).count() == 1;
+    public boolean checkInvalidCustomer(Integer id) {
+        return customerList.stream().filter(c -> c.id().equals(id)).count() != 1;
     }
 
     public void delete(Integer id) {
