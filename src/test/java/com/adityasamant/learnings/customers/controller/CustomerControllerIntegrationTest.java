@@ -107,7 +107,21 @@ class CustomerControllerIntegrationTest {
 
         mvc.perform(post("/api/customers").contentType("application/json").content(json)).
                 andExpect(status().isCreated());
-
     }
 
+    @Test
+    void createInvalidCustomer() throws Exception {
+        var customer = new Customer(4, "", "Davids");
+        //when(customerCollectionRepository.save(customer);)
+        var json = STR."""
+        {
+            "id":\{customer.id()},
+            "firstName":"\{customer.firstName()}",
+            "lastName":"\{customer.lastName()}"
+        }
+        """;
+
+        mvc.perform(post("/api/customers").contentType("application/json").content(json)).
+                andExpect(status().isBadRequest());
+    }
 }
