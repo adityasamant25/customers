@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,5 +63,22 @@ class CustomerControllerIntegrationTest {
         when(customerCollectionRepository.findAll()).thenReturn(customers);
         mvc.perform(get("/api/customers"))
                 .andExpect(status().isOk()).andExpect(content().json(jsonResponse));
+    }
+
+    @Test
+    void findByValidId() throws Exception {
+        when(customerCollectionRepository.findById(1)).thenReturn(Optional.of(customers.getFirst()));
+
+        var customer = customers.getFirst();
+        var json = STR."""
+        {
+            "id":\{customer.id()},
+            "firstName":"\{customer.firstName()}",
+            "lastName":"\{customer.lastName()}"
+        }
+        """;
+        mvc.perform(get("/api/customers/1")).
+                andExpect(status().isOk()).
+                andExpect(content().json(json));
     }
 }
