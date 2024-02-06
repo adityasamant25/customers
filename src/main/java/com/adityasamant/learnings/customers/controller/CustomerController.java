@@ -6,6 +6,7 @@ import com.adityasamant.learnings.customers.repository.CustomerCollectionReposit
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -38,7 +39,7 @@ public class CustomerController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody Customer customer) {
+    public void create(@RequestBody @Validated Customer customer) {
         repository.save(customer);
     }
 
