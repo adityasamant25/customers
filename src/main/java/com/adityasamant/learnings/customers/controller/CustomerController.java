@@ -1,5 +1,6 @@
 package com.adityasamant.learnings.customers.controller;
 
+import com.adityasamant.learnings.customers.exception.CustomerNotFoundException;
 import com.adityasamant.learnings.customers.model.Customer;
 import com.adityasamant.learnings.customers.repository.CustomerCollectionRepository;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public Customer findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found."));
+        return repository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

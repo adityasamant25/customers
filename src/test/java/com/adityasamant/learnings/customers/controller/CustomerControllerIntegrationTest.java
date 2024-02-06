@@ -1,5 +1,6 @@
 package com.adityasamant.learnings.customers.controller;
 
+import com.adityasamant.learnings.customers.exception.CustomerNotFoundException;
 import com.adityasamant.learnings.customers.model.Customer;
 import com.adityasamant.learnings.customers.repository.CustomerCollectionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -81,4 +83,31 @@ class CustomerControllerIntegrationTest {
                 andExpect(status().isOk()).
                 andExpect(content().json(json));
     }
+
+
+    @Test
+    void findByInvalidId() throws Exception {
+
+        when(customerCollectionRepository.findById(999)).thenThrow(CustomerNotFoundException.class);
+
+        mvc.perform(get("/api/customers/999")).
+                andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createValidCustomer() throws Exception {
+        var customer = new Customer(4, "Trent", "Davids");
+        var json = STR."""
+        {
+            "id":\{customer.id()},
+            "firstName":"\{customer.firstName()}",
+            "lastName":"\{customer.lastName()}"
+        }
+        """;
+
+        mvc.perform(post("/api/customers").contentType("application/json").content(json)).
+                andExpect(status().isCreated());
+
+    }
+
 }
