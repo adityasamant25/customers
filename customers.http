@@ -2,7 +2,7 @@
 GET http://localhost:8081/api/customers
 
 ### Get Customers by ID
-GET http://localhost:8081/api/customers/1
+GET http://localhost:8081/api/customers/999
 
 ### Create a new Customer
 POST http://localhost:8081/api/customers
