@@ -17,7 +17,7 @@ class CustomerCollectionRepositoryTest {
     @BeforeEach
     void setUp() {
         // Given : A customer
-        customer = new Customer(1, "John", "Doe");
+        customer = new Customer(1, "John", "Doe", "Australia");
     }
 
 

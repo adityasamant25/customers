@@ -35,9 +35,9 @@ class CustomerControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        customers = List.of(new Customer(1, "John", "Doe"),
-                new Customer(2, "Alice", "Smith"),
-                new Customer(3, "Bob", "Stevens"));
+        customers = List.of(new Customer(1, "John", "Doe", "Australia"),
+                new Customer(2, "Alice", "Smith", "USA"),
+                new Customer(3, "Bob", "Stevens", "England"));
     }
 
     @Test
@@ -47,17 +47,20 @@ class CustomerControllerIntegrationTest {
                     {
                         "id":1,
                         "firstName":"John",
-                        "lastName":"Doe"
+                        "lastName":"Doe",
+                        "country":"Australia"
                     },
                     {
                         "id":2,
                         "firstName":"Alice",
-                        "lastName":"Smith"
+                        "lastName":"Smith",
+                        "country":"USA"
                     },
                     {
                         "id":3,
                         "firstName":"Bob",
-                        "lastName":"Stevens"
+                        "lastName":"Stevens",
+                        "country":"England"
                     }
                 ]
                 """;
@@ -75,7 +78,8 @@ class CustomerControllerIntegrationTest {
         {
             "id":\{customer.id()},
             "firstName":"\{customer.firstName()}",
-            "lastName":"\{customer.lastName()}"
+            "lastName":"\{customer.lastName()}",
+            "country":"\{customer.country()}"
         }
         """;
         mvc.perform(get("/api/customers/1")).
@@ -95,13 +99,14 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void createValidCustomer() throws Exception {
-        var customer = new Customer(4, "Trent", "Davids");
+        var customer = new Customer(4, "Trent", "Davids", "Germany");
         doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
             "id":\{customer.id()},
             "firstName":"\{customer.firstName()}",
-            "lastName":"\{customer.lastName()}"
+            "lastName":"\{customer.lastName()}",
+            "country":"\{customer.country()}"
         }
         """;
 
@@ -113,13 +118,14 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void createInvalidCustomer() throws Exception {
-        var customer = new Customer(4, "", "Davids");
+        var customer = new Customer(4, "", "Davids", "France");
         doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
             "id":\{customer.id()},
             "firstName":"\{customer.firstName()}",
-            "lastName":"\{customer.lastName()}"
+            "lastName":"\{customer.lastName()}",
+            "country":"\{customer.country()}"
         }
         """;
 
@@ -131,7 +137,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateValidCustomer() throws Exception {
-        Customer updated = new Customer(1, "NewFirstName", "NewLastName");
+        Customer updated = new Customer(1, "NewFirstName", "NewLastName", "Spain");
         when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
         doNothing().when(customerCollectionRepository).save(updated);
 
@@ -139,7 +145,8 @@ class CustomerControllerIntegrationTest {
         {
             "id":\{updated.id()},
             "firstName":"\{updated.firstName()}",
-            "lastName":"\{updated.lastName()}"
+            "lastName":"\{updated.lastName()}",
+            "country":"\{updated.country()}"
         }
         """;
 
@@ -150,7 +157,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateInvalidCustomerDueToBadRequest() throws Exception {
-        Customer updated = new Customer(1, "NewFirstName", "");
+        Customer updated = new Customer(1, "NewFirstName", "", "");
         when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
         doNothing().when(customerCollectionRepository).save(updated);
 
@@ -158,7 +165,8 @@ class CustomerControllerIntegrationTest {
         {
             "id":\{updated.id()},
             "firstName":"\{updated.firstName()}",
-            "lastName":"\{updated.lastName()}"
+            "lastName":"\{updated.lastName()}",
+            "country":"\{updated.country()}"
         }
         """;
 
@@ -169,7 +177,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateInvalidCustomerDueToNonExistingCustomer() throws Exception {
-        Customer updated = new Customer(4, "NewFirstName", "NewLastName");
+        Customer updated = new Customer(4, "NewFirstName", "NewLastName", "NewCountry");
         when(customerCollectionRepository.checkInvalidCustomer(4)).thenReturn(true);
         doNothing().when(customerCollectionRepository).save(updated);
 
@@ -177,7 +185,8 @@ class CustomerControllerIntegrationTest {
         {
             "id":\{updated.id()},
             "firstName":"\{updated.firstName()}",
-            "lastName":"\{updated.lastName()}"
+            "lastName":"\{updated.lastName()}",
+            "country":"\{updated.country()}"
         }
         """;
 
