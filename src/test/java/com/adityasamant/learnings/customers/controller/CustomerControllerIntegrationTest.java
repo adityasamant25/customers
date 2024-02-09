@@ -16,9 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -97,6 +96,7 @@ class CustomerControllerIntegrationTest {
     @Test
     void createValidCustomer() throws Exception {
         var customer = new Customer(4, "Trent", "Davids");
+        doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
             "id":\{customer.id()},
@@ -107,12 +107,14 @@ class CustomerControllerIntegrationTest {
 
         mvc.perform(post("/api/customers").contentType("application/json").content(json)).
                 andExpect(status().isCreated());
+
+        verify(customerCollectionRepository,times(1)).save(customer);
     }
 
     @Test
     void createInvalidCustomer() throws Exception {
         var customer = new Customer(4, "", "Davids");
-        //when(customerCollectionRepository.save(customer);)
+        doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
             "id":\{customer.id()},
@@ -123,5 +125,76 @@ class CustomerControllerIntegrationTest {
 
         mvc.perform(post("/api/customers").contentType("application/json").content(json)).
                 andExpect(status().isBadRequest());
+
+        verify(customerCollectionRepository,times(0)).save(customer);
     }
+
+    @Test
+    void updateValidCustomer() throws Exception {
+        Customer updated = new Customer(1, "NewFirstName", "NewLastName");
+        when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
+        doNothing().when(customerCollectionRepository).save(updated);
+
+        var json = STR."""
+        {
+            "id":\{updated.id()},
+            "firstName":"\{updated.firstName()}",
+            "lastName":"\{updated.lastName()}"
+        }
+        """;
+
+        mvc.perform(put("/api/customers/1").contentType("application/json").content(json)).
+                andExpect(status().isNoContent());
+        verify(customerCollectionRepository,times(1)).save(updated);
+    }
+
+    @Test
+    void updateInvalidCustomerDueToBadRequest() throws Exception {
+        Customer updated = new Customer(1, "NewFirstName", "");
+        when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
+        doNothing().when(customerCollectionRepository).save(updated);
+
+        var json = STR."""
+        {
+            "id":\{updated.id()},
+            "firstName":"\{updated.firstName()}",
+            "lastName":"\{updated.lastName()}"
+        }
+        """;
+
+        mvc.perform(put("/api/customers/1").contentType("application/json").content(json)).
+                andExpect(status().isBadRequest());
+        verify(customerCollectionRepository,times(0)).save(updated);
+    }
+
+    @Test
+    void updateInvalidCustomerDueToNonExistingCustomer() throws Exception {
+        Customer updated = new Customer(4, "NewFirstName", "NewLastName");
+        when(customerCollectionRepository.checkInvalidCustomer(4)).thenReturn(true);
+        doNothing().when(customerCollectionRepository).save(updated);
+
+        var json = STR."""
+        {
+            "id":\{updated.id()},
+            "firstName":"\{updated.firstName()}",
+            "lastName":"\{updated.lastName()}"
+        }
+        """;
+
+        mvc.perform(put("/api/customers/4").contentType("application/json").content(json)).
+                andExpect(status().isNotFound());
+        verify(customerCollectionRepository,times(0)).save(updated);
+    }
+
+    @Test
+    void deleteValidCustomer() throws Exception {
+
+        doNothing().when(customerCollectionRepository).delete(1);
+
+        mvc.perform(delete("/api/customers/1")).andExpect(status().isNoContent());
+
+        verify(customerCollectionRepository,times(1)).delete(1);
+    }
+
+
 }
