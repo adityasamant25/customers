@@ -1,12 +1,13 @@
 package com.adityasamant.learnings.customers.controller;
 
+import com.adityasamant.learnings.customers.exception.CustomerNotFoundException;
 import com.adityasamant.learnings.customers.model.Customer;
 import com.adityasamant.learnings.customers.repository.CustomerCollectionRepository;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -15,7 +16,9 @@ import java.util.List;
 @CrossOrigin
 public class CustomerController {
 
+
     Logger log = LoggerFactory.getLogger(CustomerController.class);
+
     private final CustomerCollectionRepository repository;
 
     public CustomerController(CustomerCollectionRepository repository) {
@@ -30,20 +33,20 @@ public class CustomerController {
 
     @GetMapping("/{id}")
     public Customer findById(@PathVariable Integer id) {
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found."));
+        return repository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public void create(@RequestBody Customer customer) {
+    public void create(@RequestBody @Valid Customer customer) {
         repository.save(customer);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
-    public void update(@RequestBody Customer customer, @PathVariable Integer id) {
+    public void update(@RequestBody @Valid Customer customer, @PathVariable Integer id) {
         if (repository.checkInvalidCustomer(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found.");
+            throw new CustomerNotFoundException("Customer not found.");
         }
         repository.save(customer);
     }
@@ -52,7 +55,7 @@ public class CustomerController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         if (repository.checkInvalidCustomer(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found.");
+            throw new CustomerNotFoundException("Customer not found.");
         }
         repository.delete(id);
     }

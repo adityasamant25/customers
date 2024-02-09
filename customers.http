@@ -2,7 +2,7 @@
 GET http://localhost:8081/api/customers
 
 ### Get Customers by ID
-GET http://localhost:8081/api/customers/1
+GET http://localhost:8081/api/customers/999
 
 ### Create a new Customer
 POST http://localhost:8081/api/customers
@@ -11,7 +11,8 @@ Content-Type: application/json
 {
   "id": 4,
   "firstName": "Sarah",
-  "lastName": "Jones"
+  "lastName": "Jones",
+  "country": "Spain"
 }
 
 ### Update Customer
@@ -21,7 +22,8 @@ Content-Type: application/json
 {
   "id": 2,
   "firstName": "Tom",
-  "lastName": "Potter"
+  "lastName": "Potter",
+  "country": "Germany"
 }
 
 ### Delete Customer
