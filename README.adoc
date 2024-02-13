@@ -39,7 +39,7 @@ mvn clean install
 .Run
 [,console]
 ----
-java -jar target/customers-2.0.0-SNAPSHOT-exec.jar
+java -jar target/customers-1.0.0-SNAPSHOT-exec.jar
 ----
 
 .Access from a terminal
@@ -61,7 +61,7 @@ Terminate the application using kbd:[Ctrl+C] on the terminal running the process
 .Run
 [,console]
 ----
-docker run -d --name simply-customers -p 8081:8081 adityasamantlearnings/customers:2.0
+docker run -d --name simply-customers -p 8081:8081 adityasamantlearnings/customers:1.0
 ----
 
 .Access from a terminal
@@ -78,7 +78,7 @@ http://localhost:8081/api/customers
 ----
 docker stop simply-customers
 docker rm simply-customers
-docker rmi adityasamantlearnings/customers:2.0
+docker rmi adityasamantlearnings/customers:1.0
 ----
 
 === Run on Kubernetes
