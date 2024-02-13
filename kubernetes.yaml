@@ -16,7 +16,7 @@ spec:
         app: customers
     spec:
       containers:
-        - image: adityasamantlearnings/customers
+        - image: adityasamantlearnings/customers:2.0
           name: customers
 
 ---
@@ -28,6 +28,7 @@ metadata:
     app: customers
   name: customers
 spec:
+  type: NodePort
   ports:
     - port: 8081
       protocol: TCP
