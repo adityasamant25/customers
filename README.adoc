@@ -1,0 +1,121 @@
+= Simply Customers !
+:experimental:
+
+Simply Customers is a project developed using Spring Boot. +
+Developers building microservices in Spring Boot can use this project to quickly spin-up a Spring Boot microservice in a matter of seconds.
+
+This project is built with the latest Java LTS release (Java 21) and is always up-to-date with the latest Spring Boot version.
+
+The project is accompanied by a host of Junit test cases which ensure its health.
+
+The Docker images built for this application are multi-architecture compliant images. These images can seamlessly work with both x86 and ARM CPU architectures.
+
+== Use Cases
+
+* Spin-up a Spring Boot microservice on your local machine in a matter of seconds
+* Run on a local JVM, Docker or Kubernetes
+* No external dependencies needed, the application is fully self-contained
+* Use the code as a reference example for writing efficient Spring Boot applications
+
+== Quick Start
+
+=== Run on Local
+
+*Prerequisite:* Java 21, Maven 3.9.x
+
+.Clone
+[,console]
+----
+git clone https://github.com/adityasamant25/customers.git
+----
+
+.Build
+[,console]
+----
+cd customers
+mvn clean install
+----
+
+.Run
+[,console]
+----
+java -jar target/customers-2.0.0-SNAPSHOT-exec.jar
+----
+
+.Access from a terminal
+[,console]
+----
+curl localhost:8081/api/customers
+----
+
+.Access from a browser
+http://localhost:8081/api/customers
+
+.Cleanup
+Terminate the application using kbd:[Ctrl+C] on the terminal running the process.
+
+=== Run on Docker
+
+*Prerequisite:* A running Docker Engine. Docker Desktop is preferred for local development.
+
+.Run
+[,console]
+----
+docker run -d --name simply-customers -p 8081:8081 adityasamantlearnings/customers:2.0
+----
+
+.Access from a terminal
+[,console]
+----
+curl localhost:8081/api/customers
+----
+
+.Access from a browser
+http://localhost:8081/api/customers
+
+.Cleanup
+[,console]
+----
+docker stop simply-customers
+docker rm simply-customers
+docker rmi adityasamantlearnings/customers:2.0
+----
+
+=== Run on Kubernetes
+
+*Prerequisite:* A running Kubernetes cluster. To quickly spin-up a local Kubernetes cluster, https://minikube.sigs.k8s.io/docs/start/[minikube] is a great choice.
+
+.Run
+[,console]
+----
+kubectl apply -f https://raw.githubusercontent.com/adityasamant25/customers/main/kubernetes.yaml
+----
+
+.Start a minikube tunnel
+[,console]
+----
+minikube service --url
+----
+
+.Access from a new terminal
+[,console]
+----
+curl <minikube service url>/api/customers
+----
+
+.Access from a browser
+\http://<minikube service url>/api/customers
+
+.Cleanup
+[,console]
+----
+kubectl delete svc customers
+kubectl delete deployment customer
+----
+Terminate the `minikube tunnel` using kbd:[Ctrl+C] on the terminal running it.
+
+
+
+
+
+
