@@ -1,3 +1,3 @@
 FROM openjdk:21-slim
-COPY target/customers-2.0.0-SNAPSHOT-exec.jar customers-2.0.0-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","/customers-2.0.0-SNAPSHOT.jar"]
+COPY target/customers-0.9.0-exec.jar customers-0.9.0.jar
+ENTRYPOINT ["java","-jar","/customers-0.9.0.jar"]

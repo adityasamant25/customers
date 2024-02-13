@@ -16,7 +16,7 @@ spec:
         app: customers
     spec:
       containers:
-        - image: adityasamantlearnings/customers:2.0
+        - image: adityasamantlearnings/customers:0.9
           name: customers
 
 ---
