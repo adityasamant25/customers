@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.adityasamant.learnings</groupId>
     <artifactId>customers</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.8.0</version>
     <name>customers</name>
     <description>customers</description>
     <properties>
