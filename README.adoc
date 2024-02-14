@@ -39,7 +39,7 @@ mvn clean install
 .Run
 [,console]
 ----
-java -jar target/customers-1.0.0-SNAPSHOT-exec.jar
+java -jar target/customers-1.0.0-exec.jar
 ----
 
 .Access from a terminal
