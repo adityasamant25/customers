@@ -17,6 +17,13 @@ The Docker images built for this application are multi-architecture compliant im
 * No external dependencies needed, the application is fully self-contained
 * Use the code as a reference example for writing efficient Spring Boot applications
 
+== What's New?
+
+Version 1.0.1
+
+* Base image for docker is changed to `bellsoft/liberica-runtime-container:jdk-21-slim-musl` to reduce the size
+* Upgraded to Spring Boot 3.2.3
+
 == Quick Start
 
 === Run on Local
@@ -39,7 +46,7 @@ mvn clean install
 .Run
 [,console]
 ----
-java -jar target/customers-1.0.0-exec.jar
+java -jar target/customers-1.0.1-exec.jar
 ----
 
 .Access from a terminal
