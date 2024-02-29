@@ -19,6 +19,10 @@ The Docker images built for this application are multi-architecture compliant im
 
 == What's New?
 
+Version 1.0.2
+
+* Base image for docker is changed to `openjdk:21-slim` to support multi-platform builds
+
 Version 1.0.1
 
 * Base image for docker is changed to `bellsoft/liberica-runtime-container:jdk-21-slim-musl` to reduce the size
