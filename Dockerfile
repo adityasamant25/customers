@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-runtime-container:jdk-21-slim-musl
-COPY target/customers-1.0.1-exec.jar /opt/app/
+FROM openjdk:21-slim
+COPY target/customers-1.0.2-exec.jar /opt/app/
 EXPOSE 8081
-CMD ["java", "-showversion", "-jar", "/opt/app/customers-1.0.1-exec.jar"]
+CMD ["java", "-showversion", "-jar", "/opt/app/customers-1.0.2-exec.jar"]
