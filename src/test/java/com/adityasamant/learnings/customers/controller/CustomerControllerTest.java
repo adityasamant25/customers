@@ -17,9 +17,9 @@ class CustomerControllerTest {
     void setUp() {
         customerCollectionRepository = new CustomerCollectionRepository();
         controller = new CustomerController(customerCollectionRepository);
-        customerCollectionRepository.save(new Customer(1, "John", "Doe", "Australia"));
-        customerCollectionRepository.save(new Customer(2, "Alice", "Smith", "USA"));
-        customerCollectionRepository.save(new Customer(3, "Bob", "Stevens", "England"));
+        customerCollectionRepository.save(new Customer(1, "John", "Doe", "Australia", null));
+        customerCollectionRepository.save(new Customer(2, "Alice", "Smith", "USA", null));
+        customerCollectionRepository.save(new Customer(3, "Bob", "Stevens", "England", null));
     }
 
     @Test
@@ -50,14 +50,14 @@ class CustomerControllerTest {
 
     @Test
     void create() {
-        controller.create(new Customer(4, "Sandra", "Peters", "India"));
+        controller.create(new Customer(4, "Sandra", "Peters", "India", null));
         List<Customer> customers = controller.findAll("");
         assertEquals(4, customers.size());
     }
 
     @Test
     void update() {
-        controller.update(new Customer(1, "John", "Gray", "New Zealand"), 1);
+        controller.update(new Customer(1, "John", "Gray", "New Zealand", null), 1);
         Customer customer = controller.findById(1);
         assertEquals("Gray", customer.lastName());
     }

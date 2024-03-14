@@ -35,9 +35,9 @@ class CustomerControllerIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        customers = List.of(new Customer(1, "John", "Doe", "Australia"),
-                new Customer(2, "Alice", "Smith", "USA"),
-                new Customer(3, "Bob", "Stevens", "England"));
+        customers = List.of(new Customer(1, "John", "Doe", "Australia", null),
+                new Customer(2, "Alice", "Smith", "USA", null),
+                new Customer(3, "Bob", "Stevens", "England", null));
     }
 
     @Test
@@ -99,7 +99,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void createValidCustomer() throws Exception {
-        var customer = new Customer(4, "Trent", "Davids", "Germany");
+        var customer = new Customer(4, "Trent", "Davids", "Germany", null);
         doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
@@ -118,7 +118,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void createInvalidCustomer() throws Exception {
-        var customer = new Customer(4, "", "Davids", "France");
+        var customer = new Customer(4, "", "Davids", "France", null);
         doNothing().when(customerCollectionRepository).save(customer);
         var json = STR."""
         {
@@ -137,7 +137,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateValidCustomer() throws Exception {
-        Customer updated = new Customer(1, "NewFirstName", "NewLastName", "Spain");
+        Customer updated = new Customer(1, "NewFirstName", "NewLastName", "Spain", null);
         when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
         doNothing().when(customerCollectionRepository).save(updated);
 
@@ -157,7 +157,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateInvalidCustomerDueToBadRequest() throws Exception {
-        Customer updated = new Customer(1, "NewFirstName", "", "");
+        Customer updated = new Customer(1, "NewFirstName", "", "", null);
         when(customerCollectionRepository.checkInvalidCustomer(1)).thenReturn(false);
         doNothing().when(customerCollectionRepository).save(updated);
 
@@ -177,7 +177,7 @@ class CustomerControllerIntegrationTest {
 
     @Test
     void updateInvalidCustomerDueToNonExistingCustomer() throws Exception {
-        Customer updated = new Customer(4, "NewFirstName", "NewLastName", "NewCountry");
+        Customer updated = new Customer(4, "NewFirstName", "NewLastName", "NewCountry", null);
         when(customerCollectionRepository.checkInvalidCustomer(4)).thenReturn(true);
         doNothing().when(customerCollectionRepository).save(updated);
 

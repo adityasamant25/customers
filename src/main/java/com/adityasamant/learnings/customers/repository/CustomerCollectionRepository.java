@@ -39,9 +39,9 @@ public class CustomerCollectionRepository {
 
     @PostConstruct
     private void init() {
-        Customer c1 = new Customer(1, "John", "Doe", "Australia");
-        Customer c2 = new Customer(2, "Alice", "Smith", "USA");
-        Customer c3 = new Customer(3, "Bob", "Stevens", "England");
+        Customer c1 = new Customer(1, "John", "Doe", "Australia", null);
+        Customer c2 = new Customer(2, "Alice", "Smith", "USA", null);
+        Customer c3 = new Customer(3, "Bob", "Stevens", "England", null);
         customerList.add(c1);
         customerList.add(c2);
         customerList.add(c3);

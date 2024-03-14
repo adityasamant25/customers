@@ -4,6 +4,3 @@ spring:
   sql:
     init:
       mode: always
-  docker:
-    compose:
-      file: ./customers/docker-compose.yml
